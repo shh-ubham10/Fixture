@@ -3,14 +3,13 @@ from tkinter import ttk, messagebox, filedialog
 import os
 import csv
 from tkcalendar import DateEntry
-from PIL import Image, ImageTk
 from datetime import date
 
 # Functionality 1: Manage Fixtures & Accessories
 def run_functionality_1():
-    def add_accessory_row():
+    def add_accessory_row(accessory_row_counter):
         """Add a new row for accessory inputs."""
-        global accessory_row_counter
+        
         accessory_row_counter += 1
         num_label = tk.Label(root, text=f"Accessory Number {accessory_row_counter}:")
         num_entry = tk.Entry(root)
@@ -178,9 +177,8 @@ def run_functionality_1():
         submit_button = tk.Button(details_window, text="Final Submit", command=final_submit)
         submit_button.pack(pady=10)
 
-    def submit():
+    def submit(accessory_data, accessory_combobox,tree,details_frame):
         """Collect data from entries and show the accessory details window."""
-        global accessory_data, accessory_combobox, tree, details_frame
         accessory_data.clear()
         fixture_number = fixture_entry.get()
         fixture_name = fixture_name_entry.get()
@@ -221,11 +219,11 @@ def run_functionality_1():
     name_label.grid(row=1, column=2, padx=10, pady=10, sticky='e')
     name_entry.grid(row=1, column=3, padx=10, pady=10)
     accessory_entries.append((num_entry, name_entry))
-    add_button = tk.Button(root, text="Add Accessory", command=add_accessory_row)
+    add_button = tk.Button(root, text="Add Accessory", command=lambda:add_accessory_row(accessory_row_counter))
     add_button.grid(row=2, column=0, columnspan=4, pady=10, sticky='ew')
     bottom_frame = tk.Frame(root)
     bottom_frame.grid(row=99, column=0, columnspan=4, sticky='s', pady=10)
-    submit_button = tk.Button(bottom_frame, text="Submit", command=submit)
+    submit_button = tk.Button(bottom_frame, text="Submit", command=lambda:submit(accessory_data,accessory_combobox=None,tree=None,details_frame=None))
     submit_button.pack()
     load_button = tk.Button(bottom_frame, text="Load Previous Data", command=load_data_from_csv)
     load_button.pack(pady=10)
