@@ -177,9 +177,8 @@ def run_functionality_1():
         submit_button = tk.Button(details_window, text="Final Submit", command=final_submit)
         submit_button.pack(pady=10)
 
-    def submit():
+    def submit(accessory_data, accessory_combobox,tree,details_frame):
         """Collect data from entries and show the accessory details window."""
-        global accessory_data, accessory_combobox, tree, details_frame
         accessory_data.clear()
         fixture_number = fixture_entry.get()
         fixture_name = fixture_name_entry.get()
@@ -224,7 +223,7 @@ def run_functionality_1():
     add_button.grid(row=2, column=0, columnspan=4, pady=10, sticky='ew')
     bottom_frame = tk.Frame(root)
     bottom_frame.grid(row=99, column=0, columnspan=4, sticky='s', pady=10)
-    submit_button = tk.Button(bottom_frame, text="Submit", command=submit)
+    submit_button = tk.Button(bottom_frame, text="Submit", command=lambda:submit(accessory_data,accessory_combobox=None,tree=None,details_frame=None))
     submit_button.pack()
     load_button = tk.Button(bottom_frame, text="Load Previous Data", command=load_data_from_csv)
     load_button.pack(pady=10)
