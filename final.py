@@ -3,14 +3,13 @@ from tkinter import ttk, messagebox, filedialog
 import os
 import csv
 from tkcalendar import DateEntry
-from PIL import Image, ImageTk
 from datetime import date
 
 # Functionality 1: Manage Fixtures & Accessories
 def run_functionality_1():
-    def add_accessory_row():
+    def add_accessory_row(accessory_row_counter):
         """Add a new row for accessory inputs."""
-        global accessory_row_counter
+        
         accessory_row_counter += 1
         num_label = tk.Label(root, text=f"Accessory Number {accessory_row_counter}:")
         num_entry = tk.Entry(root)
@@ -221,7 +220,7 @@ def run_functionality_1():
     name_label.grid(row=1, column=2, padx=10, pady=10, sticky='e')
     name_entry.grid(row=1, column=3, padx=10, pady=10)
     accessory_entries.append((num_entry, name_entry))
-    add_button = tk.Button(root, text="Add Accessory", command=add_accessory_row)
+    add_button = tk.Button(root, text="Add Accessory", command=lambda:add_accessory_row(accessory_row_counter))
     add_button.grid(row=2, column=0, columnspan=4, pady=10, sticky='ew')
     bottom_frame = tk.Frame(root)
     bottom_frame.grid(row=99, column=0, columnspan=4, sticky='s', pady=10)
