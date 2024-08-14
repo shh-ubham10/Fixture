@@ -1,0 +1,8 @@
+Date,Machine No.,Operation,Fixture No.,Accessory No.,Accessory Name,Parameter,Specification,Inspection Instrument,Observation,Remark,Status
+2024-08-12,ge,grf,222,Y,Y,Y,Y,Y,t,v,OK
+2024-08-12,fw,frd,111,A,A,A,A,A,v,r,OK
+2024-08-12,fd,red,111,A,A,A,A,A,tg,gg,OK,OK
+2024-08-12,ge,frw,222,A,A,A,A,A,f,y,OK,OK
+2024-08-12,1,R&OB,10,Ba,b,b,b,b,BBB,AAA,OK,OK
+2024-08-12,1,R&OB,10,Ba,b,b,b,b,BBB,AAA,OK,OK
+2024-08-14,vdffsd,sd,10,Aa,a,a,a,a,f,er,NG,NG
