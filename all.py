@@ -5,12 +5,12 @@ import csv
 import pandas as pd
 import matplotlib.pyplot as plt
 
-global machine_combobox, accessory_combobox, date_combobox
-
 def load_all_data():
     """Load all the data from the CSV file."""
     filename = "All_Accessories_Data.csv"
-    filepath = os.path.join(os.path.expanduser("~"), "Desktop", filename)
+    current_directory = os.path.dirname(__file__)
+
+    filepath = os.path.join(current_directory, filename)
     
     if not os.path.exists(filepath):
         messagebox.showerror("File Not Found", f"The file {filename} does not exist.")
