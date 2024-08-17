@@ -9,9 +9,9 @@ import pandas as pd
 
 # Functionality 1: Manage Fixtures & Accessories
 def run_functionality_1():
-    def add_accessory_row(accessory_row_counter):
+    def add_accessory_row():
         """Add a new row for accessory inputs."""
-        
+        nonlocal accessory_row_counter
         accessory_row_counter += 1
         num_label = tk.Label(root, text=f"Accessory Number {accessory_row_counter}:")
         num_entry = tk.Entry(root)
@@ -204,6 +204,8 @@ def run_functionality_1():
     accessory_row_counter = 1
     accessory_entries = []
     accessory_data = []
+
+
     fixture_frame = tk.Frame(root, padx=10, pady=10)
     fixture_frame.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
     tk.Label(fixture_frame, text="Fixture Number:").grid(row=0, column=0, padx=10, pady=10, sticky='e')
@@ -212,6 +214,8 @@ def run_functionality_1():
     tk.Label(fixture_frame, text="Fixture Name:").grid(row=0, column=2, padx=10, pady=10, sticky='e')
     fixture_name_entry = tk.Entry(fixture_frame)
     fixture_name_entry.grid(row=0, column=3, padx=10, pady=10)
+
+
     num_label = tk.Label(root, text="Accessory Number 1:")
     num_entry = tk.Entry(root)
     name_label = tk.Label(root, text="Accessory Name 1:")
@@ -221,8 +225,10 @@ def run_functionality_1():
     name_label.grid(row=1, column=2, padx=10, pady=10, sticky='e')
     name_entry.grid(row=1, column=3, padx=10, pady=10)
     accessory_entries.append((num_entry, name_entry))
-    add_button = tk.Button(root, text="Add Accessory", command=lambda:add_accessory_row(accessory_row_counter))
+    
+    add_button = tk.Button(root, text="Add Accessory", command=add_accessory_row)
     add_button.grid(row=2, column=0, columnspan=4, pady=10, sticky='ew')
+
     bottom_frame = tk.Frame(root)
     bottom_frame.grid(row=99, column=0, columnspan=4, sticky='s', pady=10)
     submit_button = tk.Button(bottom_frame, text="Submit", command=lambda:submit(accessory_data,accessory_combobox=None,tree=None,details_frame=None))
@@ -455,10 +461,7 @@ def run_functionality_3():
                 header = next(reader)
                 data = [row[:len(header)] for row in reader] 
 
-                # Debugging prints
-                print("Header:", header)
-                for i, row in enumerate(data):
-                    print(f"Row {i+1} ({len(row)} elements):", row)
+            
 
             return header, data
         except Exception as e:
@@ -499,10 +502,7 @@ def run_functionality_3():
                 if not row or not col or not value:
                     messagebox.showerror("Selection Error", "Please select a Row, Column, and Value to create the pivot chart.")
                     return
-                print(header)
-                print(data)
                 df = pd.DataFrame(data,columns=header)
-                print(df)
 
                 pivot_table = pd.pivot_table(
                     df,
@@ -617,6 +617,7 @@ def run_functionality_3():
 
         # Filter the data to only include the selected fixture's entries
         filtered_data = filter_data(fixture_number=selected_fixture)
+     
 
         # Get unique values from the filtered data for the selected column
         col_index = header.index(col)
@@ -625,12 +626,19 @@ def run_functionality_3():
         menu = Menu(root, tearoff=0)
         selected_values = set()
 
-        def toggle_selection(value, var):
+        def toggle_selection(v, var):
             """Toggle the selection of a value."""
-            if var.get():
-                selected_values.add(value)
+            if not var.get():
+                print(f"Attempting to add {v} to {selected_values}")
+                selected_values.add(v)
+                print(selected_values)
             else:
-                selected_values.remove(value)
+                if v in selected_values:
+                    print(f"Attempting to remove {v} from {selected_values}")
+                    selected_values.remove(v)
+                    print(selected_values)
+                else:
+                    print(f"Value {v} not found in {selected_values}")
             apply_filter()
 
         def apply_filter():
@@ -647,6 +655,7 @@ def run_functionality_3():
         # Create menu items for each unique value in the column
         for value in unique_values:
             var = BooleanVar()
+
             menu.add_checkbutton(label=value, variable=var, 
                                 command=lambda v=value, var=var: toggle_selection(v, var))
 

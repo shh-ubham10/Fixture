@@ -155,13 +155,21 @@ def show_column_menu(col):
     menu = Menu(root, tearoff=0)
     selected_values = set()
 
-    def toggle_selection(value, var):
+    def toggle_selection(v, var):
         """Toggle the selection of a value."""
         if var.get():
-            selected_values.add(value)
+            print(f"Attempting to add {v} to {selected_values}")
+            selected_values.add(v)
+            print(selected_values)
         else:
-            selected_values.remove(value)
+            if v in selected_values:
+                print(f"Attempting to remove {v} from {selected_values}")
+                selected_values.remove(v)
+                print(selected_values)
+            else:
+                print(f"Value {v} not found in {selected_values}")
         apply_filter()
+
 
     def apply_filter():
         """Apply the filter based on selected values."""
@@ -177,6 +185,7 @@ def show_column_menu(col):
     # Create menu items for each unique value in the column
     for value in unique_values:
         var = BooleanVar()
+        print(var,value)
         menu.add_checkbutton(label=value, variable=var, 
                              command=lambda v=value, var=var: toggle_selection(v, var))
 
@@ -186,6 +195,7 @@ def show_column_menu(col):
     except IndexError:
         x = y = 0
     menu.post(tree.winfo_rootx() + x, tree.winfo_rooty() + y + 20)
+
 
 def filter_by_column(col, values):
     """Filter TreeView data based on the selected column and multiple values."""
