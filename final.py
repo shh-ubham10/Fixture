@@ -9,9 +9,9 @@ import pandas as pd
 
 # Functionality 1: Manage Fixtures & Accessories
 def run_functionality_1():
-    def add_accessory_row(accessory_row_counter):
+    def add_accessory_row():
         """Add a new row for accessory inputs."""
-        
+        nonlocal accessory_row_counter
         accessory_row_counter += 1
         num_label = tk.Label(root, text=f"Accessory Number {accessory_row_counter}:")
         num_entry = tk.Entry(root)
@@ -204,6 +204,8 @@ def run_functionality_1():
     accessory_row_counter = 1
     accessory_entries = []
     accessory_data = []
+
+
     fixture_frame = tk.Frame(root, padx=10, pady=10)
     fixture_frame.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
     tk.Label(fixture_frame, text="Fixture Number:").grid(row=0, column=0, padx=10, pady=10, sticky='e')
@@ -212,6 +214,8 @@ def run_functionality_1():
     tk.Label(fixture_frame, text="Fixture Name:").grid(row=0, column=2, padx=10, pady=10, sticky='e')
     fixture_name_entry = tk.Entry(fixture_frame)
     fixture_name_entry.grid(row=0, column=3, padx=10, pady=10)
+
+
     num_label = tk.Label(root, text="Accessory Number 1:")
     num_entry = tk.Entry(root)
     name_label = tk.Label(root, text="Accessory Name 1:")
@@ -221,8 +225,10 @@ def run_functionality_1():
     name_label.grid(row=1, column=2, padx=10, pady=10, sticky='e')
     name_entry.grid(row=1, column=3, padx=10, pady=10)
     accessory_entries.append((num_entry, name_entry))
-    add_button = tk.Button(root, text="Add Accessory", command=lambda:add_accessory_row(accessory_row_counter))
+    
+    add_button = tk.Button(root, text="Add Accessory", command=add_accessory_row)
     add_button.grid(row=2, column=0, columnspan=4, pady=10, sticky='ew')
+
     bottom_frame = tk.Frame(root)
     bottom_frame.grid(row=99, column=0, columnspan=4, sticky='s', pady=10)
     submit_button = tk.Button(bottom_frame, text="Submit", command=lambda:submit(accessory_data,accessory_combobox=None,tree=None,details_frame=None))
