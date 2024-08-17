@@ -455,10 +455,7 @@ def run_functionality_3():
                 header = next(reader)
                 data = [row[:len(header)] for row in reader] 
 
-                # Debugging prints
-                print("Header:", header)
-                for i, row in enumerate(data):
-                    print(f"Row {i+1} ({len(row)} elements):", row)
+            
 
             return header, data
         except Exception as e:
@@ -499,10 +496,7 @@ def run_functionality_3():
                 if not row or not col or not value:
                     messagebox.showerror("Selection Error", "Please select a Row, Column, and Value to create the pivot chart.")
                     return
-                print(header)
-                print(data)
                 df = pd.DataFrame(data,columns=header)
-                print(df)
 
                 pivot_table = pd.pivot_table(
                     df,
@@ -617,6 +611,7 @@ def run_functionality_3():
 
         # Filter the data to only include the selected fixture's entries
         filtered_data = filter_data(fixture_number=selected_fixture)
+     
 
         # Get unique values from the filtered data for the selected column
         col_index = header.index(col)
@@ -625,12 +620,19 @@ def run_functionality_3():
         menu = Menu(root, tearoff=0)
         selected_values = set()
 
-        def toggle_selection(value, var):
+        def toggle_selection(v, var):
             """Toggle the selection of a value."""
-            if var.get():
-                selected_values.add(value)
+            if not var.get():
+                print(f"Attempting to add {v} to {selected_values}")
+                selected_values.add(v)
+                print(selected_values)
             else:
-                selected_values.remove(value)
+                if v in selected_values:
+                    print(f"Attempting to remove {v} from {selected_values}")
+                    selected_values.remove(v)
+                    print(selected_values)
+                else:
+                    print(f"Value {v} not found in {selected_values}")
             apply_filter()
 
         def apply_filter():
@@ -647,6 +649,7 @@ def run_functionality_3():
         # Create menu items for each unique value in the column
         for value in unique_values:
             var = BooleanVar()
+
             menu.add_checkbutton(label=value, variable=var, 
                                 command=lambda v=value, var=var: toggle_selection(v, var))
 
